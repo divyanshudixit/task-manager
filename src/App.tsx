@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
+import { GuestGuard } from './auth/guard';
+import AuthClassicLayout from './components/Auth/classic';
+import  LoginPage from './components/Auth/Login';
+import RegisterPage from './components/Auth/Register';
 import './App.css';
+import Dashboard from './components/dashboard/dashboard';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+      <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+        <Route path="/" element={<><GuestGuard>
+          <AuthClassicLayout>
+            <LoginPage />
+          </AuthClassicLayout>
+        </GuestGuard></>} />
+        <Route path="/register" element={<GuestGuard>
+          <AuthClassicLayout title="Manage the job more effectively with App">
+          <RegisterPage/>
+          </AuthClassicLayout>
+        </GuestGuard>} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
